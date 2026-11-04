@@ -111,7 +111,7 @@ nav button[aria-current="true"]{background:var(--pine-soft);color:var(--pine)}
   <!-- ADD -->
   <main id="vAdd">
     <div class="namebox" id="nameAsk">
-      <label for="nameIn">1. ¿Cómo te llamas?</label>
+      <label for="nameIn">1. Cómo te llamas</label>
       <input id="nameIn" autocomplete="given-name" placeholder="Tu nombre" maxlength="40">
     </div>
     <div class="namebox done" id="nameDone" hidden>
@@ -120,8 +120,8 @@ nav button[aria-current="true"]{background:var(--pine-soft);color:var(--pine)}
     </div>
 
     <section id="stepCat">
-      <h2>2. ¿Qué quieres traer?</h2>
-      <p class="hint">Toca un tipo de bebida.</p>
+      <h2>2. Qué quieres tomar</h2>
+      <p class="hint">Toca un tipo de bebida. Nosotros compramos todo al mayoreo.</p>
       <div class="cats" id="cats"></div>
       <div class="share"><a class="wa" id="invite" href="#" target="_blank" rel="noopener">Invitar a otros por WhatsApp</a></div>
     </section>
@@ -338,7 +338,7 @@ function renderGuide() {
   const total = (GUESTS.men * 1 + GUESTS.women * 0.7) * GUESTS.hours;
   const have = {}; items.forEach(i => { const p = BY.get(i.product); if (!p) return; const ml = isBeer(p.cat) ? 1 : sizeMl(p.size) / 750; have[p.cat] = (have[p.cat] || 0) + Number(i.qty) * ml; });
   const box = document.createElement("div"); box.className = "guide";
-  box.innerHTML = `<h3>¿Alcanza para ${GUESTS.men + GUESTS.women} personas?</h3><div class="hint" style="margin:0 0 6px">Cálculo para ${GUESTS.hours} horas de fiesta. Botellas de 750 ml; cerveza en latas.</div>`;
+  box.innerHTML = `<h3>Alcanza para ${GUESTS.men + GUESTS.women} personas?</h3><div class="hint" style="margin:0 0 6px">Cálculo para ${GUESTS.hours} horas de fiesta. Botellas de 750 ml; cerveza en latas.</div>`;
   Object.entries(MIX).forEach(([cat, [pct, ml]]) => {
     const need = isBeer(cat) ? Math.round(total * pct / 100) : Math.round(total * pct / 100 * ml / 750 * 10) / 10;
     const h = Math.round((have[cat] || 0) * 10) / 10;
@@ -363,7 +363,7 @@ function renderBasket() {
   renderGuide();
   const people = new Map(); items.forEach(i => { if (!people.has(i.guest)) people.set(i.guest, []); people.get(i.guest).push(i); });
   const el = document.getElementById("people"); el.innerHTML = "";
-  if (!items.length) { el.innerHTML = '<div class="empty">Todavía no hay nada. ¡Sé el primero! Toca ➕ Agregar.</div>'; }
+  if (!items.length) { el.innerHTML = '<div class="empty">Todavía no hay nada. Sé el primero, toca ➕ Agregar.</div>'; }
   [...people.entries()].sort((a, b) => (b[0] === me) - (a[0] === me) || a[0].localeCompare(b[0])).forEach(([name, its]) => {
     const card = document.createElement("div"); card.className = "person";
     let sum = 0; its.forEach(i => { const p = BY.get(i.product); if (p) sum += p.best * i.qty; });
@@ -391,7 +391,7 @@ function renderBasket() {
   });
   const halves = [...buyQty().entries()].filter(([, q]) => q % 1).map(([k]) => (BY.get(k) || {name: k}).name);
   document.getElementById("halfWarn").innerHTML = "";
-  if (halves.length) { const w = document.createElement("div"); w.className = "warn"; w.textContent = "Botella a medias, ¿alguien se apunta con la otra mitad? " + halves.join(", "); document.getElementById("halfWarn").appendChild(w); }
+  if (halves.length) { const w = document.createElement("div"); w.className = "warn"; w.textContent = "Botella a medias, alguien se apunta con la otra mitad: " + halves.join(", "); document.getElementById("halfWarn").appendChild(w); }
 }
 async function removeItem(id) {
   try {
@@ -452,7 +452,7 @@ document.getElementById("copyPlan").addEventListener("click", () => {
 /* ---------- shell ---------- */
 function renderShare() {
   const url = location.href.split("#")[0];
-  document.getElementById("invite").href = "https://wa.me/?text=" + encodeURIComponent("🎄 Agrega lo que vas a tomar en la Posada (sin apps ni cuentas): " + url);
+  document.getElementById("invite").href = "https://wa.me/?text=" + encodeURIComponent("🎄 Agrega lo que vas a tomar en la Posada, sin apps ni cuentas: " + url);
   if (window.__bestPlan) { document.getElementById("planShare").hidden = false; document.getElementById("waPlan").href = "https://wa.me/?text=" + encodeURIComponent(planText()); }
 }
 function renderAll() {
